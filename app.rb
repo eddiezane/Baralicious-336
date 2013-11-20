@@ -9,6 +9,5 @@ client = Mysql2::Client.new(host: "localhost", username: "root", password: "", d
 
 
 get '/' do
-  @name = "Hi Kayleigh"
-  erb :index
+  haml :index
 end
