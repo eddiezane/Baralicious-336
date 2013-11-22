@@ -122,17 +122,17 @@ CREATE TABLE `transactions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `friends`
+-- Table structure for table `friendships`
 --
 
-DROP TABLE IF EXISTS `friends`;
+DROP TABLE IF EXISTS `friendships`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `friends` (
+CREATE TABLE `friendships` (
   `drinker1` varchar(50) NOT NULL DEFAULT '',
   `drinker2` varchar(50) NOT NULL DEFAULT '',
-  CONSTRAINT `fk_friends_drinker1` FOREIGN KEY (`drinker1`) REFERENCES `drinkers` (`name`),
-  CONSTRAINT `fk_friends_drinker2` FOREIGN KEY (`drinker2`) REFERENCES `drinkers` (`name`)
+  CONSTRAINT `fk_friendships_drinker1` FOREIGN KEY (`drinker1`) REFERENCES `drinkers` (`name`),
+  CONSTRAINT `fk_friendships_drinker2` FOREIGN KEY (`drinker2`) REFERENCES `drinkers` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
