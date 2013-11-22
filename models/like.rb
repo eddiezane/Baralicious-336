@@ -12,8 +12,8 @@ class Friendship
   end
 
   def add_to_db
-    $client.query("INSERT INTO `friendships` VALUES('#{@drinker1}', '#{@drinker2}')")
-    # puts ("INSERT INTO `friendships` VALUES('#{@drinker1}', '#{@drinker2})")
+    # $client.query("INSERT INTO `friendships` VALUES('#{@drinker1}', '#{@drinker2})")
+    puts ("INSERT INTO `friendships` VALUES('#{@drinker1}', '#{@drinker2})")
   end
 
   def self.add_ze_franz
@@ -29,5 +29,3 @@ class Friendship
     end
   end
 end
-
-Friendship.add_ze_franz
