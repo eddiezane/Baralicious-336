@@ -25,8 +25,8 @@ DROP TABLE IF EXISTS `beers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `beers` (
-  `name` varchar(50) NOT NULL DEFAULT '',
-  `manf` varchar(50) DEFAULT NULL,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `manf` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -74,7 +74,7 @@ DROP TABLE IF EXISTS `likes`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `likes` (
   `drinker` varchar(50) NOT NULL DEFAULT '',
-  `beer` varchar(50) NOT NULL DEFAULT '',
+  `beer` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`drinker`,`beer`),
   KEY `fk_likes_beer` (`beer`),
   CONSTRAINT `fk_likes_beer` FOREIGN KEY (`beer`) REFERENCES `beers` (`name`),
@@ -90,8 +90,8 @@ DROP TABLE IF EXISTS `sells`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `sells` (
-  `bar` varchar(50) NOT NULL DEFAULT '',
-  `beer` varchar(50) NOT NULL DEFAULT '',
+  `bar` varchar(100) NOT NULL DEFAULT '',
+  `beer` varchar(100) NOT NULL DEFAULT '',
   `price` decimal(9,2) DEFAULT NULL,
   PRIMARY KEY (`bar`,`beer`),
   KEY `fk_sells_beer` (`beer`),
@@ -109,8 +109,8 @@ DROP TABLE IF EXISTS `transactions`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `transactions` (
   `date` varchar(50) NOT NULL DEFAULT '',
-  `bar` varchar(50) NOT NULL DEFAULT '',
-  `beer` varchar(50) NOT NULL DEFAULT '',
+  `bar` varchar(100) NOT NULL DEFAULT '',
+  `beer` varchar(100) NOT NULL DEFAULT '',
   `price` decimal(9,2) DEFAULT NULL,
   `drinker` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`bar`,`beer`, `drinker`),

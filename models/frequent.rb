@@ -1,8 +1,3 @@
-require 'mysql2'
-
-$client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
-$client.select_db 'beer'
-
 class Frequent
   attr_reader :drinker, :bar
 
@@ -12,8 +7,7 @@ class Frequent
   end
 
   def add_to_db
-    # $client.query("INSERT INTO `frequents` VALUES('#{@drinker}', '#{@bar})")
-    puts ("INSERT INTO `frequents` VALUES('#{@drinker}', '#{@bar.gsub("'","''")}')")
+    $client.query("INSERT INTO `frequents` VALUES('#{@drinker.name}', '#{@bar.name.gsub("'","''")}')")
   end
 
   def self.add_ze_frequents
@@ -21,16 +15,21 @@ class Frequent
       Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['address'])
     end
 
-    bars = $client.query("SELECT * FROM `bars`").to_a
+    bars = $client.query("SELECT * FROM `bars`").to_a.map do |bar|
+      Bar.new(bar['name'], bar['license'], bar['city'], bar['phone'], bar['addr'])
+    end
+
+    frequents = []
 
     drinkers.each do |drinker|
-      match_percent = 1.0
-      bar = bars.sample
-      bar_frequents = $client.query("SELECT * FROM `frequents` WHERE bar = '#{bar['name']}'").to_a
-
+      rand(1..5).times do
+        bar = bars.sample
+        frequent = {drinker.name => bar.name}
+        if not frequents.include? frequent 
+          frequents << frequent
+          Frequent.new(drinker, bar).add_to_db
+        end
+      end
     end
   end
-
 end
-
-Frequent.add_ze_frequents

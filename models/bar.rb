@@ -1,12 +1,12 @@
 class Bar
   attr_reader :name, :license, :city, :phone, :addr
 
-  def initialize name
+  def initialize name, city = nil, license = nil, phone = nil, address = nil
     @name = name
-    @city = random_city.capitalize
-    @license = generate_license(@city)
-    @phone = generate_phone(@city)
-    @address = generate_address(@city)
+    @city = city || random_city.capitalize
+    @license = license || generate_license(@city)
+    @phone = phone || generate_phone(@city)
+    @address = address || generate_address(@city)
   end
 
   def self.add_ze_bars
@@ -14,8 +14,17 @@ class Bar
     prefixes = File.open('./seed_data/bar_names/bar_prefixes.txt').to_a.map{|w| w.strip.capitalize}
     types = ['Bar', 'Tavern', 'Pub', 'Inn', 'Establishment', 'Beer Garden', 'Club', 'Beer Hall']
 
+    bars = []
+
     rand(150..1000).times do
-      Bar.new("#{prefixes.sample} #{names.sample}''s #{types.sample}").add_to_db
+      pref = prefixes.sample
+      name = names.sample
+      type = types.sample
+      bar = {a: pref, b: name, c: type}
+      if not bars.include? bar
+        bars << bar
+        Bar.new("#{pref} #{name}''s #{type}").add_to_db
+      end
     end
   end
 
