@@ -12,8 +12,7 @@ class Friendship
   end
 
   def self.add_ze_franz
-    errbody = $client.query("SELECT name FROM `drinkers`").to_a
-    errbody.map! { |drinker| drinker['name']}
+    errbody = $client.query("SELECT name FROM `drinkers`").to_a.map! { |drinker| drinker['name']}
     errbody.each do |drinker1|
       # number of friends times
       (rand(10) + 1).times do

@@ -23,6 +23,10 @@ class Drinker
     end
   end
 
+  def friends
+    $client.query("SELECT * FROM `friendships` WHERE drinker1='#{@name}' or drinker2='#{@name}'").to_a
+  end
+
   def random_city
     return ['new york', 'new brunswick', 'trenton', 'philadelphia'].sample.capitalize
   end
