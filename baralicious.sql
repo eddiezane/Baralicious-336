@@ -108,7 +108,7 @@ DROP TABLE IF EXISTS `transactions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `transactions` (
-  `date` timestamp NOT NULL DEFAULT 0,
+  `date` varchar(50) NOT NULL DEFAULT '',
   `bar` varchar(50) NOT NULL DEFAULT '',
   `beer` varchar(50) NOT NULL DEFAULT '',
   `price` decimal(9,2) DEFAULT NULL,

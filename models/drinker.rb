@@ -1,5 +1,11 @@
+require 'mysql2'
+
+$client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
+$client.select_db 'beer'
+
 class Drinker
   attr_reader :name, :city, :phone, :address
+
 
   def initialize name, city = nil, phone = nil, address = nil
     @name = name
@@ -9,11 +15,8 @@ class Drinker
   end
 
   def add_to_db
-    puts "INSERT INTO `drinkers` VALUES('#{@name.capitalize}'," +
-      "'#{@city.capitalize}', '#{@phone}', '#{@address.capitalize}')"
-    # client.query("INSERT INTO `drinkers` VALUES('#{drinker.name.capitalize}'," +
-    #             "'#{drinker.city.capitalize}', '#{drinker.phone}'," +
-    #             "'#{drinker.address}')")
+    $client.query("INSERT INTO `drinkers` VALUES('#{@name.capitalize}'," +
+                  " '#{@city.capitalize}', '#{@phone}', '#{@address.capitalize}')")
   end
 
   def random_city
@@ -59,7 +62,6 @@ class Drinker
   end
 end
 
-def add_ze_drinkers
   names_file = File.open('../seed_data/babynames.txt', 'r')
 
   names_file.each_line do |name|
@@ -67,4 +69,3 @@ def add_ze_drinkers
     drinker.add_to_db
   end
 
-end
