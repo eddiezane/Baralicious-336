@@ -8,13 +8,15 @@
     %script{src: "js/modernizr.js"}
 
   %body
-    .row
-      .large-12.columns
-        .panel
-          -# Yield to view
-          = yield
-          %h3 Tacos
+    .large-12.columns{style: "background-color: #16a085; padding: 8%;"} 
+      %h1.text-center{style: "color: white;"} Baralicious
+    = yield
     %script{src: "js/jquery.js"}
     %script{src: "js/foundation.min.js"}
+    %script{src: "js/vendor/typeahead.min.js"}
     :javascript
       $(document).foundation();
+      $('input#name').typeahead({
+        name: 'names',
+        local: ['eddie', 'ian', 'jake']
+        });
