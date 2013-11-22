@@ -15,17 +15,24 @@ class Bar
   end
 
   def self.add_ze_bars
-    names = File.open('../seed_data/babynames.txt', 'r')
-    names.each_line { |name| Bar.new(name.strip).add_to_db }
+    names = File.open('../seed_data/babynames.txt').to_a.map{|w| w.strip.capitalize}
+    prefixes = File.open('../seed_data/bar_names/bar_prefixes.txt').to_a.map{|w| w.strip.capitalize}
+    types = ['Bar', 'Tavern', 'Pub', 'Inn', 'Establishment', 'Beer Garden', 'Club', 'Beer Hall']
+
+    rand(1000).times do
+      Bar.new("#{prefixes.sample} #{names.sample}'s #{types.sample}").add_to_db
+    end
   end
 
   def add_to_db
-    $client.query("INSERT INTO `bars` VALUES('#{@name.capitalize}', '#{@license}', " +
-                  " '#{@city}', '#{@phone}', '#{@address.capitalize}')")
+    #$client.query("INSERT INTO `bars` VALUES('#{@name}', '#{@license}', " +
+    #              " '#{@city}', '#{@phone}', '#{@address}')")
+    puts "INSERT INTO `bars` VALUES('#{@name}', '#{@license}', " +
+                  " '#{@city}', '#{@phone}', '#{@address}')"
   end
 
   def random_city
-    return ['new york', 'new brunswick', 'trenton', 'philadelphia'].sample.capitalize
+    return ['New York', 'New Brunswick', 'Trenton', 'Philadelphia'].sample
   end
 
   def generate_license city
