@@ -1,30 +1,28 @@
-require 'mysql2'
+class Like
+  attr_reader :drinker, :beer
 
-$client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
-$client.select_db 'beer'
-
-class Friendship
-  attr_reader :drinker1, :drinker2
-
-  def initialize drinker1, drinker2
-    @drinker1 = drinker1
-    @drinker2 = drinker2
+  def initialize drinker, beer
+    @drinker = drinker
+    @beer = beer
   end
 
   def add_to_db
-    # $client.query("INSERT INTO `friendships` VALUES('#{@drinker1}', '#{@drinker2})")
-    puts ("INSERT INTO `friendships` VALUES('#{@drinker1}', '#{@drinker2})")
+    # puts ("INSERT INTO `likes` VALUES('#{@drinker}', '#{@beer})")
+    $client.query("INSERT INTO `likes` VALUES('#{@drinker}', '#{@beer.gsub("'","''")}')")
   end
 
-  def self.add_ze_franz
-    errbody = $client.query("SELECT name FROM `drinkers`").to_a
-    errbody.map! { |drinker| drinker['name']}
-    errbody.each do |drinker1|
-      # number of friends times
-      (rand(10) + 1).times do
-        drinker2 = errbody.sample
-        next if drinker1 >= drinker2
-        Friendship.new(drinker1, drinker2).add_to_db
+  def self.add_ze_likes
+    drinkers = $client.query("SELECT * FROM `drinkers`").to_a.map! {|drinker| drinker['name']}
+    beers = $client.query("SELECT * FROM `beers`").to_a.map! {|beer| beer['name']}
+    drinkers.each do |drinker|
+      likes = []
+      # number of beers somebody likes
+      rand(10).times do
+        beer = beers.sample
+        if not likes.include? beer
+          likes << beer
+          Like.new(drinker, beer).add_to_db
+        end
       end
     end
   end

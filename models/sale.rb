@@ -39,4 +39,11 @@ class Transaction
   return time
   end
 
+  def self.add_ze_transactions
+    drinkers = $client.query("SELECT * FROM `drinkers`").to_a
+    frequents = $client.query("SELECT * FROM `frequents`").to_a
+    sells = $client.query("SELECT * FROM `sells`").to_a
+
+  end
+
 end

@@ -1,8 +1,3 @@
-require 'mysql2'
-
-$client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
-$client.select_db 'beer'
-
 class Bar
   attr_reader :name, :license, :city, :phone, :addr
 
@@ -15,20 +10,20 @@ class Bar
   end
 
   def self.add_ze_bars
-    names = File.open('../seed_data/babynames.txt').to_a.map{|w| w.strip.capitalize}
-    prefixes = File.open('../seed_data/bar_names/bar_prefixes.txt').to_a.map{|w| w.strip.capitalize}
+    names = File.open('./seed_data/babynames.txt').to_a.map{|w| w.strip.capitalize}
+    prefixes = File.open('./seed_data/bar_names/bar_prefixes.txt').to_a.map{|w| w.strip.capitalize}
     types = ['Bar', 'Tavern', 'Pub', 'Inn', 'Establishment', 'Beer Garden', 'Club', 'Beer Hall']
 
-    rand(1000).times do
-      Bar.new("#{prefixes.sample} #{names.sample}'s #{types.sample}").add_to_db
+    rand(150..1000).times do
+      Bar.new("#{prefixes.sample} #{names.sample}''s #{types.sample}").add_to_db
     end
   end
 
   def add_to_db
-    #$client.query("INSERT INTO `bars` VALUES('#{@name}', '#{@license}', " +
-    #              " '#{@city}', '#{@phone}', '#{@address}')")
-    puts "INSERT INTO `bars` VALUES('#{@name}', '#{@license}', " +
-                  " '#{@city}', '#{@phone}', '#{@address}')"
+    $client.query("INSERT INTO `bars` VALUES('#{@name}', '#{@license}', " +
+                  " '#{@city}', '#{@phone}', '#{@address}')")
+    # puts "INSERT INTO `bars` VALUES('#{@name}', '#{@license}', " +
+    #              " '#{@city}', '#{@phone}', '#{@address}')"
   end
 
   def random_city
@@ -73,13 +68,13 @@ class Bar
   def generate_address city = 'new york'
     case city.downcase
       when 'new york'
-        name_file = File.open('../seed_data/street_names/ny.txt', 'r')
+        name_file = File.open('./seed_data/street_names/ny.txt', 'r')
       when 'new brunswick'
-        name_file = File.open('../seed_data/street_names/nb.txt', 'r')
+        name_file = File.open('./seed_data/street_names/nb.txt', 'r')
       when 'trenton'
-        name_file = File.open('../seed_data/street_names/trenton.txt', 'r')
+        name_file = File.open('./seed_data/street_names/trenton.txt', 'r')
       when 'philadelphia'
-        name_file = File.open('../seed_data/street_names/pa.txt', 'r')
+        name_file = File.open('./seed_data/street_names/pa.txt', 'r')
     end
 
     street_names = []
@@ -90,6 +85,3 @@ class Bar
     return "#{rand(1000)} #{street_names.sample.capitalize}"
   end
 end
-
-
-Bar.add_ze_bars

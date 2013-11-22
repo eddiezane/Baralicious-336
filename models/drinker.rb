@@ -1,8 +1,3 @@
-require 'mysql2'
-
-$client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
-$client.select_db 'beer'
-
 class Drinker
   attr_reader :name, :city, :phone, :address
 
@@ -17,6 +12,15 @@ class Drinker
   def add_to_db
     $client.query("INSERT INTO `drinkers` VALUES('#{@name.capitalize}'," +
                   " '#{@city.capitalize}', '#{@phone}', '#{@address.capitalize}')")
+  end
+
+  def self.add_ze_drinkers
+    names_file = File.open('./seed_data/babynames.txt', 'r')
+
+    names_file.each_line do |name|
+      drinker = Drinker.new name.strip
+      drinker.add_to_db
+    end
   end
 
   def random_city
@@ -44,13 +48,13 @@ class Drinker
   def generate_address city = 'new york'
     case city.downcase
       when 'new york'
-        name_file = File.open('../seed_data/street_names/ny.txt', 'r')
+        name_file = File.open('./seed_data/street_names/ny.txt', 'r')
       when 'new brunswick'
-        name_file = File.open('../seed_data/street_names/nb.txt', 'r')
+        name_file = File.open('./seed_data/street_names/nb.txt', 'r')
       when 'trenton'
-        name_file = File.open('../seed_data/street_names/trenton.txt', 'r')
+        name_file = File.open('./seed_data/street_names/trenton.txt', 'r')
       when 'philadelphia'
-        name_file = File.open('../seed_data/street_names/pa.txt', 'r')
+        name_file = File.open('./seed_data/street_names/pa.txt', 'r')
     end
 
     street_names = []
@@ -61,11 +65,3 @@ class Drinker
     return "#{rand(1000)} #{street_names.sample.capitalize}"
   end
 end
-
-  names_file = File.open('../seed_data/babynames.txt', 'r')
-
-  names_file.each_line do |name|
-    drinker = Drinker.new name.strip
-    drinker.add_to_db
-  end
-

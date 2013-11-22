@@ -1,8 +1,3 @@
-require 'mysql2'
-
-$client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
-$client.select_db 'beer'
-
 class Friendship
   attr_reader :drinker1, :drinker2
 
@@ -29,5 +24,3 @@ class Friendship
     end
   end
 end
-
-Friendship.add_ze_franz
