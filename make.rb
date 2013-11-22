@@ -10,8 +10,8 @@ client.query("CREATE DATABASE `beer`;")
 client.select_db 'beer'
 
 def create_drinker name, street_name
-  addr = (Random.rand * 1000).floor.to_s + street_name
-  phone = ''
+  addr = "#{(Random.rand * 1000).floor.to_s} #{street_name}"
+  phone = generate_hp
   10.times do
     phone += (Random.rand * 10).floor.to_s
   end
@@ -19,4 +19,7 @@ def create_drinker name, street_name
   # client.query("INSERT INTO `drinkers` VALUES ('#{name.capitalize}','New York','#{phone}',#{addr})",)
 end
 
-create_drinker 'Bob', 'yolo'
+
+def generate_phone area_code
+
+end
