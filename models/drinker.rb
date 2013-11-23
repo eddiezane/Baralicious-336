@@ -1,6 +1,20 @@
 class Drinker
   attr_reader :name, :city, :phone, :address
 
+  def self.add_ze_drinkers
+    names_file = File.open('./seed_data/babynames.txt', 'r')
+
+    names_file.each_line do |name|
+      drinker = Drinker.new name.strip
+      drinker.add_to_db
+    end
+  end
+
+  def self.all_drinkers
+    $client.query("SELECT * FROM `drinkers`").map do |drinker|
+      Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['address'])
+    end
+  end
 
   def initialize name, city = nil, phone = nil, address = nil
     @name = name
@@ -14,14 +28,6 @@ class Drinker
                   " '#{@city.capitalize}', '#{@phone}', '#{@address.capitalize}')")
   end
 
-  def self.add_ze_drinkers
-    names_file = File.open('./seed_data/babynames.txt', 'r')
-
-    names_file.each_line do |name|
-      drinker = Drinker.new name.strip
-      drinker.add_to_db
-    end
-  end
 
   def friends
     $client.query("SELECT name, city, phone, addr FROM (SELECT * FROM `drinkers` JOIN `friendships` ON drinkers.name = friendships.drinker1 WHERE friendships.drinker1 = '#{@name}' OR friendships.drinker2 = '#{@name}' UNION ALL SELECT * FROM `drinkers` JOIN `friendships` ON drinkers.name = friendships.drinker2 WHERE friendships.drinker1 = '#{@name}' OR friendships.drinker2 = '#{@name}') AS T WHERE name <> '#{@name}';").to_a.map do |fran|

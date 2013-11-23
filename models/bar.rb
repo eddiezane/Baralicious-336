@@ -9,6 +9,12 @@ class Bar
     @address = address || generate_address(@city)
   end
 
+  def self.all_bars
+    $client.query("SELECT * FROM `bars`").to_a.map do |bar|
+      Bar.new(bar['name', bar['city'], bar['license'], bar['phone'], bar['address'])
+    end
+  end
+
   def self.add_ze_bars
     names = File.open('./seed_data/babynames.txt').to_a.map{|w| w.strip.capitalize}
     prefixes = File.open('./seed_data/bar_names/bar_prefixes.txt').to_a.map{|w| w.strip.capitalize}
