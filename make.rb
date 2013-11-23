@@ -6,6 +6,7 @@ require './models/beer.rb'
 require './models/sell.rb'
 require './models/like.rb'
 require './models/frequent.rb'
+require './models/transaction.rb'
 
 $client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
 
@@ -22,3 +23,4 @@ Frequent.add_ze_frequents
 Friendship.add_ze_franz
 Sell.add_ze_sells
 Like.add_ze_likes
+Transaction.add_ze_trannies

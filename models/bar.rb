@@ -11,7 +11,7 @@ class Bar
 
   def self.all_bars
     $client.query("SELECT * FROM `bars`").to_a.map do |bar|
-      Bar.new(bar['name', bar['city'], bar['license'], bar['phone'], bar['address'])
+      Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['address'])
     end
   end
 
@@ -35,14 +35,14 @@ class Bar
   end
 
   def sells
-    $client.query("SELECT * FROM `sells` WHERE bar = '#{@name}'")to_a.map do |x|
+    $client.query("SELECT * FROM `sells` WHERE bar = '#{@name.gsub("'","''")}'").to_a.map do |x|
       Sell.new(x['bar'], x['beer'], x['price'])
     end
   end
 
   def frequents
-    $client.query("SELECT * FROM `frequents` WHERE bar = '${@name}'").to_a.map do |x|
-      Frequent.new(x['drinker'], x['bar'])
+    $client.query("SELECT name, city, phone, addr FROM drinkers JOIN frequents ON drinkers.name = frequents.drinker WHERE frequents.bar = '#{@name.gsub("'","''")}';").to_a.map do |x|
+      Drinker.new(x['name'], x['city'], x['phone'], x['addr'])
     end
   end
 
@@ -58,14 +58,13 @@ class Bar
   end
 
   def generate_license city
-    license = ''
     case city.downcase
       when 'new york'
-        license += 'NY'
+        license = 'NY'
       when 'philadelphia'
-        license += 'PA'
+        license = 'PA'
       else
-        license += 'NJ'
+        license = 'NJ'
     end
 
     5.times do

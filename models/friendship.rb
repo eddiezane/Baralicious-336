@@ -22,7 +22,6 @@ class Friendship
 
         res = $client.query("SELECT bar FROM `frequents` WHERE drinker = '#{drinker1}' AND bar = (SELECT bar FROM `frequents` WHERE drinker = '#{drinker2}' LIMIT 1)").to_a
         if not res.empty?
-          puts res
           score *= 1.5
         end
         if score >= 0.75

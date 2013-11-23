@@ -23,6 +23,10 @@ class Drinker
     @address = address || generate_address(@city)
   end
 
+  def == another_drinker
+    return @name == another_drinker.name
+  end
+
   def add_to_db
     $client.query("INSERT INTO `drinkers` VALUES('#{@name.capitalize}'," +
                   " '#{@city.capitalize}', '#{@phone}', '#{@address.capitalize}')")

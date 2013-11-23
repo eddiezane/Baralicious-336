@@ -29,6 +29,12 @@ class Beer
     end
   end
 
+  def sold_at
+    $client.query("SELECT name, city, license, phone, addr FROM `bars` JOIN `sells` ON bars.name = sells.bar WHERE sells.beer = '#{@name}';").to_a.map do |bar|
+      Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['addr'])
+    end
+  end
+
   def add_to_db
     $client.query("INSERT INTO `beers` VALUES('#{@name.gsub("'","''")}', '#{@manf.gsub("'","''")}');")
     # puts ("INSERT INTO `beers` VALUES('#{@name}', '#{@manf}');")

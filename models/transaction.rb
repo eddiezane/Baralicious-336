@@ -44,11 +44,11 @@ class Transaction
     drinkers = Drinker.all_drinkers
 
     drinkers.each do |drinker|
-
-      rand(300..500).times do
+      friends = drinker.friends
+      rand(3..5).times do
         score = 0
         bar = bars.sample
-        score += drinker.friends.count {|friend| bar.frequents.include? friend}
+        score += friends.count {|friend| bar.frequents.include? friend}
         puts score
 
 
