@@ -7,9 +7,25 @@ class Beer
     @manf = manf
   end
 
+  def == another_beer
+    return (@name == another_beer.name and @manf == another_beer.manf)
+  end
+
+  def self.all_beers
+    $client.query("SELECT * FROM `beers`").map do |beer|
+      Beer.new(beer['name'], beer['manf'])
+    end
+  end
+
   def self.add_ze_beers
     manfs = []
     names = []
+
+    nums = []
+    count = 0
+    100.times do
+      nums << rand(4759)
+    end
 
     CSV.foreach('./seed_data/beer_data/openbeerdb_csv/breweries.csv') do |row|
       if row[1] and row[1].ascii_only?
@@ -18,9 +34,10 @@ class Beer
     end
 
     CSV.foreach('./seed_data/beer_data/openbeerdb_csv/beers.csv') do |row|
+      count += 1
       if row[2] and row[2].ascii_only?
         manfs.each do |manf|
-          if row[1] == manf[:id] and not names.include? row[2].downcase
+          if row[1] == manf[:id] and not names.include? row[2].downcase and nums.include? count
             Beer.new(row[2], manf[:name]).add_to_db
             names.push row[2].downcase
           end

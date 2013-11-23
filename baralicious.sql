@@ -113,11 +113,7 @@ CREATE TABLE `transactions` (
   `beer` varchar(100) NOT NULL DEFAULT '',
   `price` decimal(9,2) DEFAULT NULL,
   `drinker` varchar(50) NOT NULL DEFAULT '',
-  PRIMARY KEY (`bar`,`beer`, `drinker`),
-  KEY `fk_sells_beer` (`beer`),
-  CONSTRAINT `fk_transactions_bar` FOREIGN KEY (`bar`) REFERENCES `bars` (`name`),
-  CONSTRAINT `fk_transactions_beer` FOREIGN KEY (`beer`) REFERENCES `beers` (`name`),
-  CONSTRAINT `fk_transactions_drinker` FOREIGN KEY (`drinker`) REFERENCES `drinkers` (`name`)
+  PRIMARY KEY (`drinker`, `date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

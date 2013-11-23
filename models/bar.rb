@@ -22,7 +22,7 @@ class Bar
 
     bars = []
 
-    rand(10..50).times do
+    1.times do
       pref = prefixes.sample
       name = names.sample
       type = types.sample
@@ -35,8 +35,8 @@ class Bar
   end
 
   def sells
-    $client.query("SELECT * FROM `sells` WHERE bar = '#{@name.gsub("'","''")}'").to_a.map do |x|
-      Sell.new(x['bar'], x['beer'], x['price'])
+    $client.query("select name, manf from beers join sells on beers.name = sells.beer where sells.bar ='#{@name.gsub("'","''")}';").to_a.map do |beer|
+      Beer.new(beer['name'], beer['manf'])
     end
   end
 
@@ -44,6 +44,10 @@ class Bar
     $client.query("SELECT name, city, phone, addr FROM drinkers JOIN frequents ON drinkers.name = frequents.drinker WHERE frequents.bar = '#{@name.gsub("'","''")}';").to_a.map do |x|
       Drinker.new(x['name'], x['city'], x['phone'], x['addr'])
     end
+  end
+
+  def price_of beer
+    $client.query("SELECT price FROM `sells` WHERE beer='#{beer.name.gsub("'","''")}' AND bar='#{@name.gsub("'","''")}'").to_a[0]['price'].to_f
   end
 
   def add_to_db
