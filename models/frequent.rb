@@ -22,6 +22,7 @@ class Frequent
     frequents = []
 
     drinkers.each do |drinker|
+      # range of number of frequents
       rand(1..5).times do
         bar = bars.sample
         frequent = {drinker.name => bar.name}

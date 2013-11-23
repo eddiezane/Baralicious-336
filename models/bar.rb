@@ -16,7 +16,7 @@ class Bar
 
     bars = []
 
-    rand(150..1000).times do
+    rand(10..50).times do
       pref = prefixes.sample
       name = names.sample
       type = types.sample
