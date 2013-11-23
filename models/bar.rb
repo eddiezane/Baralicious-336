@@ -1,5 +1,5 @@
 class Bar
-  attr_reader :name, :license, :city, :phone, :addr
+  attr_reader :name, :city, :license, :phone, :addr
 
   def initialize name, city = nil, license = nil, phone = nil, address = nil
     @name = name
@@ -25,6 +25,18 @@ class Bar
         bars << bar
         Bar.new("#{pref} #{name}''s #{type}").add_to_db
       end
+    end
+  end
+
+  def sells
+    $client.query("SELECT * FROM `sells` WHERE bar = '#{@name}'")to_a.map do |x|
+      Sell.new(x['bar'], x['beer'], x['price'])
+    end
+  end
+
+  def frequents
+    $client.query("SELECT * FROM `frequents` WHERE bar = '${@name}'").to_a.map do |x|
+      Frequent.new(x['drinker'], x['bar'])
     end
   end
 

@@ -24,7 +24,15 @@ class Drinker
   end
 
   def friends
-    $client.query("SELECT * FROM `friendships` WHERE drinker1='#{@name}' or drinker2='#{@name}'").to_a
+    $client.query("SELECT name, city, phone, addr FROM (SELECT * FROM `drinkers` JOIN `friendships` ON drinkers.name = friendships.drinker1 WHERE friendships.drinker1 = '#{@name}' OR friendships.drinker2 = '#{@name}' UNION ALL SELECT * FROM `drinkers` JOIN `friendships` ON drinkers.name = friendships.drinker2 WHERE friendships.drinker1 = '#{@name}' OR friendships.drinker2 = '#{@name}') AS T WHERE name <> '#{@name}';").to_a.map do |fran|
+      Drinker.new(fran['name'], fran['city'], fran['phone'], fran['addr'])
+    end
+  end
+
+  def frequents
+    $client.query("SELECT name, license, city, phone, addr FROM `bars` JOIN frequents ON bars.name = frequents.bar WHERE frequents.drinker = '#{@name}'").to_a.map do |bar|
+      Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['addr'])
+    end
   end
 
   def random_city
@@ -33,39 +41,39 @@ class Drinker
 
   def generate_phone city = 'new york'
     case city.downcase
-      when 'new york'
-        num = '212'
-      when 'new brunswick'
-        num = '732'
-      when 'trenton'
-        num = '609'
-      when 'philadelphia'
-        num = '215'
+    when 'new york'
+      num = '212'
+    when 'new brunswick'
+      num = '732'
+    when 'trenton'
+      num = '609'
+    when 'philadelphia'
+      num = '215'
     end
 
-    3.times {num += '5'}
-    4.times {num += rand(10).to_s}
+  3.times {num += '5'}
+  4.times {num += rand(10).to_s}
 
-    return num
+  return num
   end
 
   def generate_address city = 'new york'
     case city.downcase
-      when 'new york'
-        name_file = File.open('./seed_data/street_names/ny.txt', 'r')
-      when 'new brunswick'
-        name_file = File.open('./seed_data/street_names/nb.txt', 'r')
-      when 'trenton'
-        name_file = File.open('./seed_data/street_names/trenton.txt', 'r')
-      when 'philadelphia'
-        name_file = File.open('./seed_data/street_names/pa.txt', 'r')
+    when 'new york'
+      name_file = File.open('./seed_data/street_names/ny.txt', 'r')
+    when 'new brunswick'
+      name_file = File.open('./seed_data/street_names/nb.txt', 'r')
+    when 'trenton'
+      name_file = File.open('./seed_data/street_names/trenton.txt', 'r')
+    when 'philadelphia'
+      name_file = File.open('./seed_data/street_names/pa.txt', 'r')
     end
 
-    street_names = []
-    name_file.each_line do |line|
-      street_names.push line.strip
-    end
+  street_names = []
+  name_file.each_line do |line|
+    street_names.push line.strip
+  end
 
-    return "#{rand(1000)} #{street_names.sample.capitalize}"
+  return "#{rand(1000)} #{street_names.sample.capitalize}"
   end
 end
