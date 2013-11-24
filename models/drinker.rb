@@ -13,6 +13,7 @@ class Drinker
   def self.get_drinker_by_name name
     drinker = $client.query("SELECT * FROM `drinkers` WHERE name='#{name}'").to_a[0]
     return Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['address']) if not drinker.nil?
+    nil
   end
 
   def self.all_drinkers

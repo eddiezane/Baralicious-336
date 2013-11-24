@@ -23,8 +23,13 @@ get '/drinkers' do
 end
 
 get '/drinkers/:drinker' do |drinker|
-  @drinker = Drinker.get_drinker_by_name drinker
+  @drinker = Drinker.get_drinker_by_name(drinker)
+  error 404 if @drinker.nil?
   haml :drinker
+end
+
+error 404 do
+  "NO LUCK"
 end
 
 get '/bars' do
