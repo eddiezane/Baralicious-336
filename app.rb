@@ -7,12 +7,12 @@ require './beeralicious'
 
 # configure
 set :public_folder, File.dirname(__FILE__) + '/assets'
-set :port, 4568
+set :port, 4567
 set :bind, '0.0.0.0'
 
 
 get '/' do
-  haml :index
+  haml :index, :layout => :splash
 end
 
 get '/drinkers' do
