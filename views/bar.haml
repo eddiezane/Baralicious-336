@@ -2,21 +2,17 @@
   .large-12.columns{style: "background-color: #FF7130;"}
     %h2= "<b>name:</b> #{@bar.name}"
     %h3= "<b>phone:</b> #{@bar.phone}"
-    %h3= "<b>address:</b> #{@bar.address}, #{@bar.city}"
+    %h3= "<b>address:</b> #{@bar.addr}, #{@bar.city}"
     %h3= "<b>license:</b> #{@bar.license}"
 
 .row
-  .large-4.columns{style: "background-color: #5DCFC3;"}
-    %h1 #{@drinker.name} likes:
-    -@drinker.likes.each do |like|
-      %h4= like.name
+  .large-5.columns{style: "background-color: #5DCFC3;"}
+    %h1 Frequenters of #{@bar.name}:
+    -@bar.frequents.each do |drinker|
+      %h4= drinker.name
 
-  .large-4.columns{style: "background-color: #34CFBE;"}
-    %h1 #{@drinker.name} is friends with:
-    -@drinker.friends.each do |friend|
-      %h4= friend.name
+  .large-5.columns{style: "background-color: #34CFBE;"}
+    %h1 #{@bar.name}'s beer menu:
+    -@bar.sells.each do |beer|
+      %h4= "#{beer.name} $#{beer.price_at @bar}"
 
-  .large-4.columns{style: "background-color: #209E8E;"}
-    %h1 #{@drinker.name} goes to:
-    -@drinker.frequents.each do |bar|
-      %h4= bar.name

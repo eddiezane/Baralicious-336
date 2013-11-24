@@ -65,6 +65,10 @@ class Beer
     end
   end
 
+  def price_at bar
+    $client.query("SELECT price FROM `sells` WHERE beer = '#{@name.gsub("'","''")}' AND bar='#{bar.name.gsub("'","''")}';").to_a[0]['price'].to_f
+  end
+
   def add_to_db
     $client.query("INSERT INTO `beers` VALUES('#{@name.gsub("'","''")}', '#{@manf.gsub("'","''")}');")
     # puts ("INSERT INTO `beers` VALUES('#{@name}', '#{@manf}');")

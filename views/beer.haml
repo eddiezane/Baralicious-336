@@ -4,15 +4,13 @@
     %h2= "<b>Manufacturer:</b> #{@beer.manf}"
 
 .row
-  .large-4.columns{style: "background-color: #009E8E;"}
+  .large-5.columns{style: "background-color: #009E8E;"}
     %h1 Where to buy #{@beer.name}:
     -@beer.sold_at.each do |bar|
       %h4= bar.name
 
-  .large-4.columns{style: "background-color: #34CFBE;"}
+  .large-5.columns{style: "background-color: #34CFBE;"}
     %h1 People who like #{@beer.name}:
     -@beer.liked_by.each do |drinker|
       %h4= drinker.name
 
-  .large-4.columns{style: "background-color: #5DCFC3;"}
-    %h1 Recent transactions involving #{@beer.name}:
