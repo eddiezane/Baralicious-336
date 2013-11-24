@@ -57,6 +57,12 @@ class Bar
     $client.query("SELECT * FROM `frequents` WHERE bar='#{@name.gsub("'","''")}' AND drinker='#{drinker.name}'").to_a.size > 0
   end
 
+  def to_hash
+    hash = {}
+    instance_variables.each {|var| hash[var.to_s.delete("@")] = instance_variable_get(var) }
+    hash
+  end
+
   def add_to_db
     $client.query("INSERT INTO `bars` VALUES('#{@name}', '#{@license}', " +
                   " '#{@city}', '#{@phone}', '#{@address}')")

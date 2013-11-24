@@ -5,6 +5,7 @@
     %meta{name: "viewport", content: "width=device-width, initial-scale=1.0"}
     %title Baralicious
     %link{rel: "stylesheet", href: "css/foundation.css"}
+    %link{rel: "stylesheet", href: "css/baralicious.css"}
     %script{src: "js/modernizr.js"}
 
   %body
@@ -18,5 +19,5 @@
       $(document).foundation();
       $('input#name').typeahead({
         name: 'names',
-        local: ['eddie', 'ian', 'jake']
+        prefetch: 'http://dev2.eddiezane.com:4567/users'
         });
