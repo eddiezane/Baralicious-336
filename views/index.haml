@@ -9,13 +9,15 @@
     .large-4.columns
       %h4 find friends
       %img{src: "/img/friends.png"}
-    .small-6.columns.small-centered
-      %form
-        .row
-          .large-12.columns
-            %input#name{type: "text", placeholder: "Input Name"}
+.row.text-center
+  .small-6.columns.small-centered
+    %form
+      .row.extramargin
+        .large-12.columns
+          %input#name{type: "text", placeholder: "Input Name"}
 :javascript
   $('input#name').typeahead({
     name: 'names',
     prefetch: 'http://dev2.eddiezane.com:4567/drinkers'
-    });
+    }).style;
+  $('.row')
