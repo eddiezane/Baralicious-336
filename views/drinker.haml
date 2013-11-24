@@ -13,7 +13,10 @@
   .large-4.columns{style: "background-color: #34CFBE;"}
     %h1 #{@drinker.name} is friends with:
     -@drinker.friends.each do |friend|
-      %h4= friend.name
+      %h4{data: {:reveal_id => friend.name}}= friend.name
+      .reveal-modal{id: friend.name, data: {'reveal' => 'nil'}}
+        = friend.name
+      #Dore.reveal-modal{data: {'reveal' => 'nil'}}
 
   .large-4.columns{style: "background-color: #209E8E;"}
     %h1 #{@drinker.name} goes to:
