@@ -7,6 +7,7 @@ require './beeralicious'
 
 # configure
 set :public_folder, File.dirname(__FILE__) + '/assets'
+set :port, 8080
 set :bind, '0.0.0.0'
 
 
@@ -17,11 +18,21 @@ get '/' do
 end
 
 get '/drinkers' do
-  @drinker ||= Drinker.all_drinkers.map {|drinker| drinker.name}
-  json @drinker
+  @drinkers ||= Drinker.all_drinkers.map {|drinker| drinker.name}
+  json @drinkers
 end
 
-get 'drinkers/:drinker' do
-  @drinker = Drinker.get_drinker_by_name
+get 'drinkers/:drinker' do |drinker|
+  @drinker = Drinker.get_drinker_by_name drinker
   haml :drinker
+end
+
+get '/bars' do
+  @bars ||= Bar.all_bars.map {|bar| bar.name}
+  json @bars
+end
+
+get '/bars:barname' do |bar|
+  @bar = Bar.get_bar_by_name bar
+  haml :bar
 end
