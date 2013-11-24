@@ -41,9 +41,15 @@ class Drinker
 
   def transactions
     @transactions ||= $client.query("SELECT date, bar, beer, price FROM transactions where drinker='#{@name}'").to_a.map do |transaction|
-      Transaction.new(transaction['name'], transaction['city'], transaction['phone'], transaction['addr'])
+      Transaction.new(transaction['date'], transaction['bar'], transaction['beer'], transaction['price'], transaction['drinker'])
     end
     return @transactions
+  end
+
+  def bought beer
+    $client.query("SELECT * FROM `transactions` WHERE transactions.drinker = '#{@name}' AND transactions.beer = '#{beer.name}'").to_a.map do |transaction|
+      Transaction.new(transaction['date'], transaction['bar'], transaction['beer'], transaction['price'], transaction['drinker'])
+    end
   end
 
   def friends

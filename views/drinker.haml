@@ -8,7 +8,14 @@
   .large-4.columns{style: "background-color: #5DCFC3;"}
     %h1 #{@drinker.name} likes:
     -@drinker.likes.each do |like|
-      %h4= like.name
+      %h4{data: {:reveal_id => like.name.gsub(" ","")}}= like.name
+      .reveal-modal{id: like.name.gsub(" ",""), data: {'reveal' => 'nil'}}
+        %h3 #{@drinker.name} purchases of #{like.name} look like:
+        %ul
+          - @drinker.bought(Beer.get_beer_by_name(like.name)).each do |tranny|
+            %li
+              %p #{tranny.date}  #{tranny.bar}  #{tranny.price.to_f}
+
 
   .large-4.columns{style: "background-color: #34CFBE;"}
     %h1 #{@drinker.name} is friends with:
