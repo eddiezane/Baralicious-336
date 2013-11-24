@@ -1,3 +1,3 @@
 task :default do
-  require './make'
+  require './db/make'
 end
