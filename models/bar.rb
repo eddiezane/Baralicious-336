@@ -1,5 +1,5 @@
 class Bar
-  attr_reader :name, :city, :license, :phone, :addr
+  attr_reader :name, :city, :license, :phone, :address
 
   def initialize name, city = nil, license = nil, phone = nil, address = nil
     @name = name
