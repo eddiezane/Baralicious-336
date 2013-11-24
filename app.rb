@@ -20,8 +20,8 @@ get '/drinkers/?' do
   json @drinkers
 end
 
-get '/drinkers/:drinker' do |drinker|
-  @drinker = Drinker.get_drinker_by_name(drinker)
+post '/drinkers' do
+  @drinker = Drinker.get_drinker_by_name params[:drinker]
   error 404 if @drinker.nil?
   haml :drinker
 end
@@ -31,8 +31,8 @@ get '/beers/?' do
   json @beers
 end
 
-get '/beers/:beername' do |beer|
-  @beer = Beer.get_beer_by_name beer
+post '/beers' do
+  @beer = Beer.get_beer_by_name params[:beer]
   error 404 if @bar.nil?
   haml :beer
 end
@@ -42,8 +42,8 @@ get '/bars/?' do
   json @bars
 end
 
-get '/bars/:barname' do |bar|
-  @bar = Bar.get_bar_by_name bar
+post '/bars' do
+  @bar = Bar.get_bar_by_name params[:bar]
   error 404 if @bar.nil?
   haml :bar
 end
