@@ -11,10 +11,10 @@ require './models/transaction.rb'
 $client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
 
 # database shit
-$client.query("DROP DATABASE IF EXISTS `beer`;")
-$client.query("CREATE DATABASE `beer`;")
-$client.select_db "beer"
-`mysql -ucsuser --password=c0rnd0gs -D beer < baralicious.sql`
+$client.query("DROP DATABASE IF EXISTS `beer1`;")
+$client.query("CREATE DATABASE `beer1`;")
+$client.select_db "beer1"
+`mysql -ucsuser --password=c0rnd0gs -D beer1 < baralicious.sql`
 
 gtimer = start = Time.now
 puts "Adding ze drinkers..."

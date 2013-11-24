@@ -76,14 +76,17 @@ class Transaction
 
         # bonuses
         frequents = bar.frequents
-        score *= (1.0 + (friends.count {|friend| frequents.include? friend} / friends.count.to_f)) unless friends.count == 0
+        friends_count = friends.count
+        friends_count_f = friends_count.to_f
+        likes_count = likes.count
+        likes_count_f = likes_count.to_f
+        score *= (1.0 + (friends.count {|friend| frequents.include? friend} / friends_count_f)) unless friends_count == 0
         sells = bar.sells
-        score *= (1.0 + (likes.count {|beer| sells.include? beer} / likes.count.to_f)) unless likes.count == 0
-        beer = bar.sells.sample
+        score *= (1.0 + (likes.count {|beer| sells.include? beer} / likes_count_f)) unless likes_count == 0
+        beer = sells.sample
 
         Transaction.new(time[:time], bar.name, beer.name, bar.price_of(beer), drinker.name).add_to_db if score > 0.5
       end
     end
   end
-
 end
