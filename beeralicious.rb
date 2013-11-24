@@ -15,10 +15,10 @@ $client.select_db "beer"
 def link_to object
   case
     when object.is_a?(Beer)
-      return "<a href=/beers/#{object.name}>object.name</a>"
+      return "<a class=\"black\" href=/beers/#{object.name}>object.name</a>"
     when object.is_a?(Drinker)
-      return "<a href=/drinkers/#{object.name}>#{object.name}</a>"
+      return "<a class=\"black\" href=/drinkers/#{object.name}>#{object.name}</a>"
     when object.is_a?(Bar)
-      return "<a href=/bars/#{object.name.gsub(" ","%20")}>#{object.name}</a>"
+      return "<a class=\"black\" href=/bars/#{object.name.gsub(" ","%20")}>#{object.name}</a>"
   end
 end

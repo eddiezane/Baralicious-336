@@ -2,3 +2,8 @@
   text-align: left;
 }
 .row.extramargin {margin: 90px auto 10px !important;}
+
+a.black {
+  color: black;
+  text-decoration:underline;
+}

@@ -31,4 +31,4 @@
   .large-4.columns{style: "background-color: #209E8E;"}
     %h1 #{@drinker.name} goes to:
     -@drinker.frequents.each do |bar|
-      %h4= bar.name
+      %h4{style: "color: black"}= link_to bar

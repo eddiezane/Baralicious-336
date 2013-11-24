@@ -16,11 +16,25 @@ get '/' do
   haml :index, :layout => :splash
 end
 
-get '/drinkers/?' do
+
+# API
+get '/bars.json' do
+  @bars ||= Bar.all_bars.map {|bar| bar.name}
+  json @bars
+end
+
+get '/drinkers.json' do
   @drinkers ||= Drinker.all_drinkers.map {|drinker| drinker.name}
   json @drinkers
 end
 
+get '/beers.json' do
+  @beers ||= Beer.all_beers.map {|beer| beer.name}
+  json @beers
+end
+
+
+# drinkers
 get '/drinkers/:drinker' do |drinker|
   @drinker = Drinker.get_drinker_by_name params[:drinker]
   error 404 if @drinker.nil?
@@ -33,22 +47,16 @@ post '/drinkers' do
   haml :drinker
 end
 
-get '/beers/?' do
-  @beers ||= Beer.all_beers.map {|beer| beer.name}
-  json @beers
-end
 
+# beers
 post '/beers' do
   @beer = Beer.get_beer_by_name params[:beer]
 #  error 404 if @bar.nil?
   haml :beer
 end
 
-get '/bars/?' do
-  @bars ||= Bar.all_bars.map {|bar| bar.name}
-  json @bars
-end
 
+# bars
 get '/bars/:bar' do |bar|
   @bar = Bar.get_bar_by_name bar
   error 404 if @bar.nil?
