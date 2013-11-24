@@ -49,6 +49,12 @@ get '/bars/?' do
   json @bars
 end
 
+get '/bars/:bar' do |bar|
+  @bar = Bar.get_bar_by_name bar
+  error 404 if @bar.nil?
+  haml :bar
+end
+
 post '/bars' do
   @bar = Bar.get_bar_by_name params[:bar]
   error 404 if @bar.nil?

@@ -18,6 +18,6 @@ def link_to object
     when object.is_a?(Drinker)
       return "<a href=/drinkers/#{object.name}>#{object.name}</a>"
     when object.is_a?(Bar)
-      return "<a href=/bars/#{object.name}>#{object.name}</a>"
+      return "<a href=/bars/#{object.name.gsub(" ","%20")}>#{object.name}</a>"
   end
 end
