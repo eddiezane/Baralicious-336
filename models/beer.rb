@@ -17,6 +17,19 @@ class Beer
     end
   end
 
+  def liked_by
+    @likes ||= $client.query("SELECT name, city, phone, addr FROM drinkers JOIN likes ON drinker.name = likes.drinker WHERE likes.beer = '#{@name.gsub("'","''")}';").to_a.map do |drinker|
+      Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['addr'])
+    end
+    return @likes
+  end
+
+  def self.get_beer_by_name name
+    beer = $client.query("SELECT * FROM `beer` WHERE name='#{name}'").to_a[0]
+    return Beer.new(beer['name'], beer['manf']) if not drinker.nil?
+    nil
+  end
+
   def self.add_ze_beers
     manfs = []
     names = []

@@ -15,7 +15,7 @@ get '/' do
   haml :index, :layout => :splash
 end
 
-get '/drinkers' do
+get '/drinkers/?' do
   @drinkers ||= Drinker.all_drinkers.map {|drinker| drinker.name}
   json @drinkers
 end
@@ -26,7 +26,18 @@ get '/drinkers/:drinker' do |drinker|
   haml :drinker
 end
 
-get '/bars' do
+get '/beers/?' do
+  @beers ||= Beer.all_beers.map {|beer| beer.name}
+  json @beers
+end
+
+get '/beers/:beername' do |beer|
+  @beer = Beer.get_beer_by_name beer
+  error 404 if @bar.nil?
+  haml :beer
+end
+
+get '/bars/?' do
   @bars ||= Bar.all_bars.map {|bar| bar.name}
   json @bars
 end
