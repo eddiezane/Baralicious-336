@@ -1,12 +1,12 @@
 class Bar
   attr_reader :name, :city, :license, :phone, :address
 
-  def initialize name, city = nil, license = nil, phone = nil, address = nil
+  def initialize name, city, license, phone, address
     @name = name
     @city = city || random_city.capitalize
-    @license = license || generate_license(@city)
-    @phone = phone || generate_phone(@city)
-    @address = address || generate_address(@city)
+    @license = license
+    @phone = phone
+    @address = address
   end
 
   def self.all_bars
@@ -17,7 +17,7 @@ class Bar
 
   def self.get_bar_by_name name
     bar = $client.query("SELECT * FROM `bars` WHERE name='#{name.gsub("'","''")}'").to_a[0]
-    return Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['address']) if not bar.nil?
+    return Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['addr']) if not bar.nil?
     nil
   end
 
