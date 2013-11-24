@@ -11,8 +11,6 @@ set :port, 4567
 set :bind, '0.0.0.0'
 
 
-
-
 get '/' do
   haml :index
 end
@@ -28,16 +26,17 @@ get '/drinkers/:drinker' do |drinker|
   haml :drinker
 end
 
-error 404 do
-  "NO LUCK"
-end
-
 get '/bars' do
   @bars ||= Bar.all_bars.map {|bar| bar.name}
   json @bars
 end
 
-get '/bars:barname' do |bar|
+get '/bars/:barname' do |bar|
   @bar = Bar.get_bar_by_name bar
+  error 404 if @bar.nil?
   haml :bar
+end
+
+error 404 do
+  "<h1>This is not the page you were looking for</h1>"
 end
