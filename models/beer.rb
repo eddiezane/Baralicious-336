@@ -18,7 +18,7 @@ class Beer
   end
 
   def liked_by
-    @likes ||= $client.query("SELECT name, city, phone, addr FROM drinkers JOIN likes ON drinker.name = likes.drinker WHERE likes.beer = '#{@name.gsub("'","''")}';").to_a.map do |drinker|
+    @likes ||= $client.query("SELECT name, city, phone, addr FROM `drinkers` JOIN `likes` ON drinkers.name = likes.drinker WHERE likes.beer = '#{@name.gsub("'","''")}';").to_a.map do |drinker|
       Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['addr'])
     end
     return @likes

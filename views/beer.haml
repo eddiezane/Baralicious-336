@@ -11,10 +11,8 @@
 
   .large-4.columns{style: "background-color: #34CFBE;"}
     %h1 People who like #{@beer.name}:
-    -@beer.each do |drinker|
+    -@beer.liked_by.each do |drinker|
       %h4= drinker.name
 
   .large-4.columns{style: "background-color: #5DCFC3;"}
     %h1 Recent transactions involving #{@beer.name}:
-    -@drinker.frequents.each do |bar|
-      %h4= bar.name

@@ -33,7 +33,7 @@ end
 
 post '/beers' do
   @beer = Beer.get_beer_by_name params[:beer]
-  error 404 if @bar.nil?
+#  error 404 if @bar.nil?
   haml :beer
 end
 
