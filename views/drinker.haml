@@ -10,7 +10,7 @@
     -@drinker.likes.each do |like|
       %h4{data: {:reveal_id => like.name.gsub(" ","")}}= like.name
       .reveal-modal{id: like.name.gsub(" ",""), data: {'reveal' => 'nil'}}
-        %h3 #{@drinker.name} purchases of #{like.name} look like:
+        %h3 #{@drinker.name}'s purchases of #{like.name} look like:
         %ul
           - @drinker.bought(Beer.get_beer_by_name(like.name)).each do |tranny|
             %li
