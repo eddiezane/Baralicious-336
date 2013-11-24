@@ -14,18 +14,18 @@
         %img{src: "/img/friends.png"}
 .row.text-center
   .small-6.columns.small-centered
-    %form#beers.hide
+    %form#beers.hide{action: "/beers", method: "POST"}
       .row.extramargin
         .large-12.columns
-          %input#in1{type: "text", placeholder: "Beer Name?"}
-    %form#bars.hide
+          %input#in1{type: "text", placeholder: "Beer Name?", name: "beer"}
+    %form#bars.hide{action: "/bars", method: "POST"}
       .row.extramargin
         .large-12.columns
-          %input#in2{type: "text", placeholder: "Bar Name?"}
-    %form#friends.hide{action: "/drinkers/eddie", method: "GET"}
+          %input#in2{type: "text", placeholder: "Bar Name?", name: "bar"}
+    %form#friends.hide{action: "/drinkers", method: "POST"}
       .row.extramargin
         .large-12.columns
-          %input#in3{type: "text", placeholder: "Your Name?"}
+          %input#in3{type: "text", placeholder: "Your Name?", name: "drinker"}
 :javascript
   $(document).ready(function() {
     $('#beer').click(function() {
@@ -34,8 +34,6 @@
       $('#friends').hide();
       $('#in1').keypress(function(e) {
         if (e.charCode == 13) {
-        var val = $('#in1').val();
-        $('#beers').attr('action', '/beers/' + val);
         $('#beers').submit();
         }
       });
@@ -46,8 +44,6 @@
       $('#friends').hide();
       $('#in2').keypress(function(e) {
         if (e.charCode == 13) {
-        var val = $('#in2').val();
-        $('#bars').attr('action', '/bars/' + val);
         $('#bars').submit();
         }
       });
@@ -58,22 +54,10 @@
       $('#beers').hide();
       $('#in3').keypress(function(e) {
         if (e.charCode == 13) {
-        var val = $('#in3').val();
-        $('#friends').attr('action', '/drinkers/' + val);
         $('#friends').submit();
         }
       });
     });
-    //$('input#in3').on('typeahead:autocompleted', function() {
-    //  var val = $(this).val();
-    //  $('#friends').attr('action', '/drinkers/' + val);
-    //  $('#friends').submit();
-    // });
-    // $('input#in3').on('typeahead:selected', function() {
-    //  var val = $(this).val();
-    //  $('#friends').attr('action', '/drinkers/' + val);
-    //  $('#friends').submit();
-    // });
     $('input#in1').typeahead({
       name: 'beer',
       prefetch: '/beers'
