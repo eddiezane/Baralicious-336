@@ -10,6 +10,11 @@ class Drinker
     end
   end
 
+  def self.get_drinker_by_name name
+    res = $client.query("SELECT * FROM `drinkers` WHERE name='#{name}'").to_a[0]
+    Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['address'])
+  end
+
   def self.all_drinkers
     $all_drinkers ||= $client.query("SELECT * FROM `drinkers`").map do |drinker|
       Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['address'])
@@ -31,6 +36,13 @@ class Drinker
   def add_to_db
     $client.query("INSERT INTO `drinkers` VALUES('#{@name.capitalize}'," +
                   " '#{@city.capitalize}', '#{@phone}', '#{@address.capitalize}')")
+  end
+
+  def transactions
+    @transactions ||= $client.query("SELECT date, bar, beer, price FROM transactions where drinker='#{@name}'").to_a.map do |transaction|
+      Transaction.new(transaction['name'], transaction['city'], transaction['phone'], transaction['addr'])
+    end
+    return @transactions
   end
 
   def friends
