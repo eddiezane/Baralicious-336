@@ -12,8 +12,11 @@ class Transaction
   end
 
   def add_to_db
-    puts("INSERT INTO `transactions` VALUES('#{@date}', '#{@bar.gsub("'","''")}', '#{@beer}', '#{@price}', '#{@drinker}')")
-    $client.query("INSERT INTO `transactions` VALUES('#{@date}', '#{@bar.gsub("'","''")}', '#{@beer}', '#{@price}', '#{@drinker}')")
+    # puts("INSERT INTO `transactions` VALUES('#{@date}', '#{@bar.gsub("'","''")}', '#{@beer}', '#{@price}', '#{@drinker}')")
+    begin
+      $client.query("INSERT INTO `transactions` VALUES('#{@date}', '#{@bar.gsub("'","''")}', '#{@beer.gsub("'","''")}', '#{@price}', '#{@drinker}')")
+    rescue Mysql2::Error
+    end
   end
 
   def self.random_time
@@ -63,7 +66,7 @@ class Transaction
     drinkers.each do |drinker|
       likes = drinker.likes
       friends = drinker.friends
-      rand(3..5).times do
+      rand(150..1000).times do
         time = random_time
         score = time[:weight] * rand
         bar = bars.sample
@@ -72,11 +75,13 @@ class Transaction
         score -= 0.3 if drinker.city != bar.city
 
         # bonuses
-        score *= (1.0 + (friends.count {|friend| bar.frequents.include? friend} / friends.count.to_f)) unless friends.count == 0
-        score *= (1.0 + (likes.count {|beer| bar.sells.include? beer} / likes.count.to_f)) unless likes.count == 0
+        frequents = bar.frequents
+        score *= (1.0 + (friends.count {|friend| frequents.include? friend} / friends.count.to_f)) unless friends.count == 0
+        sells = bar.sells
+        score *= (1.0 + (likes.count {|beer| sells.include? beer} / likes.count.to_f)) unless likes.count == 0
         beer = bar.sells.sample
 
-        Transaction.new(time[:time], bar.name, beer.name, bar.price_of(beer), drinker.name).add_to_db if score > 1
+        Transaction.new(time[:time], bar.name, beer.name, bar.price_of(beer), drinker.name).add_to_db if score > 0.5
       end
     end
   end

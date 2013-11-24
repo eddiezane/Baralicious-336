@@ -12,20 +12,17 @@ class Friendship
   end
 
   def self.add_ze_franz
-    errbody = all_drinkers
-    Drinker errbody.each do |drinker1|
-      (15..30).times do
+    errbody = Drinker.all_drinkers
+    errbody.each do |drinker1|
+      rand(15..30).times do
         drinker2 = errbody.sample
-        next if drinker1 >= drinker2
-        score = 0
-        score += rand(0.5..0.75) if drinker1.city == drinker2.city
-        res = $client.query("SELECT bar FROM `frequents` WHERE drinker = '#{drinker1}' AND bar = (SELECT bar FROM `frequents` WHERE drinker = '#{drinker2}' LIMIT 1)").to_a
-        if not res.empty?
-          score *= 1.5
-        end
-        if score >= 0.75
-          Friendship.new(drinker1, drinker2).add_to_db
-        end
+        next if drinker1.name >= drinker2.name
+        score = 0.2
+        score += rand(0.4) if drinker1.city == drinker2.city
+        score += rand(0.5) if drinker1.same_street? drinker2
+        score *= drinker1.frequents.count {|bar| bar.frequented_by? drinker2}
+
+        Friendship.new(drinker1.name, drinker2.name).add_to_db if score >= 0.85
       end
     end
   end

@@ -11,17 +11,14 @@ class Frequent
   end
 
   def self.add_ze_frequents
-    drinkers = $client.query("SELECT * FROM `drinkers`").to_a.map do |drinker|
-      Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['address'])
-    end
 
     bars = $client.query("SELECT * FROM `bars`").to_a.map do |bar|
       Bar.new(bar['name'], bar['license'], bar['city'], bar['phone'], bar['addr'])
     end
 
-    frequents = []
 
-    drinkers.each do |drinker|
+    Drinker.all_drinkers.each do |drinker|
+      frequents = []
       # range of number of frequents
       rand(1..5).times do
         bar = bars.sample

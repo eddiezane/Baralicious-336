@@ -22,7 +22,8 @@ class Bar
 
     bars = []
 
-    1.times do
+    # Number of bars
+    rand(25..50).times do
       pref = prefixes.sample
       name = names.sample
       type = types.sample
@@ -35,19 +36,25 @@ class Bar
   end
 
   def sells
-    $client.query("select name, manf from beers join sells on beers.name = sells.beer where sells.bar ='#{@name.gsub("'","''")}';").to_a.map do |beer|
+    @sells ||= $client.query("select name, manf from beers join sells on beers.name = sells.beer where sells.bar ='#{@name.gsub("'","''")}';").to_a.map do |beer|
       Beer.new(beer['name'], beer['manf'])
     end
+    return @sells
   end
 
   def frequents
-    $client.query("SELECT name, city, phone, addr FROM drinkers JOIN frequents ON drinkers.name = frequents.drinker WHERE frequents.bar = '#{@name.gsub("'","''")}';").to_a.map do |x|
+    @frequents ||= $client.query("SELECT name, city, phone, addr FROM drinkers JOIN frequents ON drinkers.name = frequents.drinker WHERE frequents.bar = '#{@name.gsub("'","''")}';").to_a.map do |x|
       Drinker.new(x['name'], x['city'], x['phone'], x['addr'])
     end
+    return @frequents
   end
 
   def price_of beer
     $client.query("SELECT price FROM `sells` WHERE beer='#{beer.name.gsub("'","''")}' AND bar='#{@name.gsub("'","''")}'").to_a[0]['price'].to_f
+  end
+
+  def frequented_by? drinker
+    $client.query("SELECT * FROM `frequents` WHERE bar='#{@name.gsub("'","''")}' AND drinker='#{drinker.name}'").to_a.size > 0
   end
 
   def add_to_db

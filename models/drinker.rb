@@ -11,9 +11,10 @@ class Drinker
   end
 
   def self.all_drinkers
-    $client.query("SELECT * FROM `drinkers`").map do |drinker|
+    $all_drinkers ||= $client.query("SELECT * FROM `drinkers`").map do |drinker|
       Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['address'])
     end
+    return $all_drinkers
   end
 
   def initialize name, city = nil, phone = nil, address = nil
@@ -33,21 +34,24 @@ class Drinker
   end
 
   def friends
-    $client.query("SELECT name, city, phone, addr FROM (SELECT * FROM `drinkers` JOIN `friendships` ON drinkers.name = friendships.drinker1 WHERE friendships.drinker1 = '#{@name}' OR friendships.drinker2 = '#{@name}' UNION ALL SELECT * FROM `drinkers` JOIN `friendships` ON drinkers.name = friendships.drinker2 WHERE friendships.drinker1 = '#{@name}' OR friendships.drinker2 = '#{@name}') AS T WHERE name <> '#{@name}';").to_a.map do |fran|
+    @friends ||= $client.query("SELECT name, city, phone, addr FROM (SELECT * FROM `drinkers` JOIN `friendships` ON drinkers.name = friendships.drinker1 WHERE friendships.drinker1 = '#{@name}' OR friendships.drinker2 = '#{@name}' UNION ALL SELECT * FROM `drinkers` JOIN `friendships` ON drinkers.name = friendships.drinker2 WHERE friendships.drinker1 = '#{@name}' OR friendships.drinker2 = '#{@name}') AS T WHERE name <> '#{@name}';").to_a.map do |fran|
       Drinker.new(fran['name'], fran['city'], fran['phone'], fran['addr'])
     end
+    return @friends
   end
 
   def frequents
-    $client.query("SELECT name, license, city, phone, addr FROM `bars` JOIN frequents ON bars.name = frequents.bar WHERE frequents.drinker = '#{@name}'").to_a.map do |bar|
+    @frequents ||= $client.query("SELECT name, license, city, phone, addr FROM `bars` JOIN frequents ON bars.name = frequents.bar WHERE frequents.drinker = '#{@name}'").to_a.map do |bar|
       Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['addr'])
     end
+    return @frequents
   end
 
   def likes
-    $client.query("SELECT name, manf FROM `beers` JOIN `likes` ON beers.name = likes.beer WHERE likes.drinker = '#{@name}'").to_a.map do |beer|
+    @likes ||= $client.query("SELECT name, manf FROM `beers` JOIN `likes` ON beers.name = likes.beer WHERE likes.drinker = '#{@name}'").to_a.map do |beer|
       Beer.new(beer['name'], beer['manf'])
     end
+    return @likes
   end
 
   def random_city
@@ -87,6 +91,14 @@ class Drinker
   street_names = []
   name_file.each_line do |line|
     street_names.push line.strip
+  end
+
+  def same_street? other_drinker
+    if @city == other_drinker.city and @address.split[0] == other_drinker.address.split[0]
+      true
+    else
+      false
+    end
   end
 
   return "#{rand(1000)} #{street_names.sample.capitalize}"
