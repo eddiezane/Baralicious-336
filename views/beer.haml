@@ -12,5 +12,5 @@
   .large-5.columns{style: "background-color: #34CFBE;"}
     %h1 People who like #{@beer.name}:
     -@beer.liked_by.each do |drinker|
-      %h4= drinker.name
+      %h4= link_to drinker
 

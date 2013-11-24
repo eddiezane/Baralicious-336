@@ -21,6 +21,12 @@ get '/drinkers/?' do
   json @drinkers
 end
 
+get '/drinkers/:drinker' do |drinker|
+  @drinker = Drinker.get_drinker_by_name params[:drinker]
+  error 404 if @drinker.nil?
+  haml :drinker
+end
+
 post '/drinkers' do
   @drinker = Drinker.get_drinker_by_name params[:drinker]
   error 404 if @drinker.nil?
