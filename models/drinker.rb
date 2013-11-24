@@ -12,13 +12,13 @@ class Drinker
 
   def self.get_drinker_by_name name
     drinker = $client.query("SELECT * FROM `drinkers` WHERE name='#{name}'").to_a[0]
-    return Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['address']) if not drinker.nil?
+    return Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['addr']) if not drinker.nil?
     nil
   end
 
   def self.all_drinkers
     $all_drinkers ||= $client.query("SELECT * FROM `drinkers`").map do |drinker|
-      Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['address'])
+      Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['addr'])
     end
     return $all_drinkers
   end
