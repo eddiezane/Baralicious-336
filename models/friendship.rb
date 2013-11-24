@@ -20,9 +20,9 @@ class Friendship
         score = 0.2
         score += rand(0.4) if drinker1.city == drinker2.city
         score += rand(0.5) if drinker1.same_street? drinker2
-        score *= drinker1.frequents.count {|bar| bar.frequented_by? drinker2}
+        score *= (1 + drinker1.frequents.count {|bar| bar.frequented_by? drinker2})
 
-        Friendship.new(drinker1.name, drinker2.name).add_to_db if score >= 0.65
+        Friendship.new(drinker1.name, drinker2.name).add_to_db if score >= 0.45
       end
     end
   end
