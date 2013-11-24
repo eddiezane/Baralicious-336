@@ -11,7 +11,7 @@ class Drinker
   end
 
   def self.get_drinker_by_name name
-    res = $client.query("SELECT * FROM `drinkers` WHERE name='#{name}'").to_a[0]
+    drinker = $client.query("SELECT * FROM `drinkers` WHERE name='#{name}'").to_a[0]
     Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['address'])
   end
 
