@@ -17,7 +17,8 @@ class Bar
 
   def self.get_bar_by_name name
     bar = $client.query("SELECT * FROM `bars` WHERE name='#{name.gsub("'","''")}'").to_a[0]
-    Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['address'])
+    return Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['address']) if not bar.nil?
+    nil
   end
 
   def self.add_ze_bars
