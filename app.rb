@@ -7,7 +7,7 @@ require './beeralicious'
 
 # configure
 set :public_folder, File.dirname(__FILE__) + '/assets'
-set :port, 4567
+set :port, 4568
 set :bind, '0.0.0.0'
 
 
