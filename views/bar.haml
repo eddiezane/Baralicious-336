@@ -9,10 +9,10 @@
   .large-5.columns{style: "background-color: #5DCFC3;"}
     %h1 Frequenters of #{@bar.name}:
     -@bar.frequents.each do |drinker|
-      %h4{style: "color: black;"}= drinker.name
+      %h5{style: "color: black;"}= drinker.name
 
   .large-5.columns{style: "background-color: #34CFBE;"}
     %h1 #{@bar.name}'s beer menu:
     -@bar.sells.each do |beer|
-      %h4{style: "color: black;"} #{beer.name} $#{beer.price_at @bar}
+      %h5{style: "color: black;"} #{beer.name} $#{"%6.2f" % [beer.price_at(@bar)]}
 

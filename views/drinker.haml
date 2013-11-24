@@ -14,7 +14,7 @@
         %ul
           - @drinker.bought(Beer.get_beer_by_name(like.name)).each do |tranny|
             %li
-              %p #{tranny.date}  #{tranny.bar}  #{tranny.price.to_f}
+              %p #{tranny.bar}  $#{"%6.2f" % [tranny.price.to_f]}  #{Time.parse(tranny.date).httpdate}
 
 
   .large-4.columns{style: "background-color: #34CFBE;"}

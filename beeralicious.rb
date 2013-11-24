@@ -7,6 +7,7 @@ require './models/sell.rb'
 require './models/like.rb'
 require './models/frequent.rb'
 require './models/transaction.rb'
+require 'time'
 
 $client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
 $client.select_db "beer"
