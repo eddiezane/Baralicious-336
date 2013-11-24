@@ -15,8 +15,14 @@
     -@drinker.friends.each do |friend|
       %h4{data: {:reveal_id => friend.name}}= friend.name
       .reveal-modal{id: friend.name, data: {'reveal' => 'nil'}}
-        = friend.name
-      #Dore.reveal-modal{data: {'reveal' => 'nil'}}
+        %h3 #{@drinker.name} and #{friend.name} both go to these bars:
+        %ul
+          -# Please have mercy on my soul
+          - @drinker.frequents.each do |d1|
+            - Drinker.get_drinker_by_name(friend.name).frequents.each do |d2|
+              - if d1.name == d2.name
+                %li
+                  %p=d1.name 
 
   .large-4.columns{style: "background-color: #209E8E;"}
     %h1 #{@drinker.name} goes to:

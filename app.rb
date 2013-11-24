@@ -4,6 +4,7 @@ require 'json'
 require 'sinatra/json'
 require 'mysql2'
 require './beeralicious'
+require 'haml'
 
 # configure
 set :public_folder, File.dirname(__FILE__) + '/assets'
