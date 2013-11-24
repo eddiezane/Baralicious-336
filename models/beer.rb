@@ -25,7 +25,7 @@ class Beer
   end
 
   def self.get_beer_by_name name
-    beer = $client.query("SELECT * FROM `beers` WHERE name='#{name}'").to_a[0]
+    beer = $client.query("SELECT * FROM `beers` WHERE name='#{name.gsub("'","''")}'").to_a[0]
     return Beer.new(beer['name'], beer['manf']) if not beer.nil?
     nil
   end
