@@ -22,7 +22,7 @@ get '/drinkers' do
   json @drinkers
 end
 
-get 'drinkers/:drinker' do |drinker|
+get '/drinkers/:drinker' do |drinker|
   @drinker = Drinker.get_drinker_by_name drinker
   haml :drinker
 end
