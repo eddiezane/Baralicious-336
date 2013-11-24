@@ -15,6 +15,11 @@ class Bar
     end
   end
 
+  def self.get_bar_by_name name
+    bar = $client.query("SELECT * FROM `bars` WHERE name='#{name.gsub("'","''")}'").to_a[0]
+    Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['address'])
+  end
+
   def self.add_ze_bars
     names = File.open('./seed_data/babynames.txt').to_a.map{|w| w.strip.capitalize}
     prefixes = File.open('./seed_data/bar_names/bar_prefixes.txt').to_a.map{|w| w.strip.capitalize}
