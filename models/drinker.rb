@@ -60,6 +60,12 @@ class Drinker
     return @frequents
   end
 
+  def frequents_with drinker
+    $client.query("SELECT * FROM `bars` WHERE bars.name IN (SELECT bar FROM `frequents` WHERE frequents.drinker = '#{@name}') AND bars.name IN (SELECT bar FROM `frequents` WHERE frequents.drinker = '#{drinker.name}')").to_a.map do |bar|
+      Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['addr'])
+    end
+  end
+
   def likes
     @likes ||= $client.query("SELECT name, manf FROM `beers` JOIN `likes` ON beers.name = likes.beer WHERE likes.drinker = '#{@name}'").to_a.map do |beer|
       Beer.new(beer['name'], beer['manf'])
