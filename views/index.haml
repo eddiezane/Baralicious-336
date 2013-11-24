@@ -11,3 +11,8 @@
       %p Test 2
     .large-4.columns
       %p Test 3
+:javascript
+  $('input#name').typeahead({
+    name: 'names',
+    prefetch: 'http://dev2.eddiezane.com:4567/drinkers'
+    });
