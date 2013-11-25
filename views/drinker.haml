@@ -8,8 +8,9 @@
   .large-4.columns{style: "background-color: #5DCFC3;"}
     %h1 #{@drinker.name} likes:
     -@drinker.likes.each do |like|
-      %h4{data: {:reveal_id => like.name.gsub(" ","")}}= like.name
-      .reveal-modal{id: like.name.gsub(" ",""), data: {'reveal' => 'nil'}}
+      %a
+        %h4{data: {:reveal_id => like.name.gsub(" ","").gsub(":","").gsub("-","")}}= like.name
+      .reveal-modal{id: like.name.gsub(" ","").gsub(":","").gsub("-",""), data: {'reveal' => 'nil'}}
         %h3 #{@drinker.name}'s purchases of #{like.name} look like:
         %ul
           - @drinker.bought(Beer.get_beer_by_name(like.name)).each do |tranny|
@@ -20,7 +21,8 @@
   .large-4.columns{style: "background-color: #34CFBE;"}
     %h1 #{@drinker.name} is friends with:
     -@drinker.friends.each do |friend|
-      %h4{data: {:reveal_id => friend.name}}= friend.name
+      %a
+        %h4{data: {:reveal_id => friend.name}}= friend.name
       .reveal-modal{id: friend.name, data: {'reveal' => 'nil'}}
         %h3 #{@drinker.name} and #{friend.name} both go to these bars:
         %ul
@@ -31,4 +33,11 @@
   .large-4.columns{style: "background-color: #209E8E;"}
     %h1 #{@drinker.name} goes to:
     -@drinker.frequents.each do |bar|
-      %h4{style: "color: black"}= link_to bar
+      %a
+        %h4{style: "color: black", data: {:reveal_id => bar.name.gsub(" ","").gsub("'","")}}= bar.name
+      .reveal-modal{id: bar.name.gsub(" ","").gsub("'",""), data: {'reveal' => 'nil'}}
+        %h3 #{@drinker.name}'s transactions at #{bar.name}:
+        %ul
+          - @drinker.transactions_at(bar).each do |tranny|
+            %li
+              %p #{tranny.beer} for $#{"%4.2f" % [tranny.price.to_f]} on #{Time.parse(tranny.date).httpdate}

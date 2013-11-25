@@ -7,12 +7,11 @@
 
 .row
   .large-5.columns{style: "background-color: #5DCFC3;"}
-    %h1 Frequenters of #{@bar.name}:
+    %h2 <b>Frequenters of #{@bar.name}:</b>
     -@bar.frequents.each do |drinker|
       %h5{style: "color: black;"}= drinker.name
 
   .large-5.columns{style: "background-color: #34CFBE;"}
-    %h1 #{@bar.name}'s beer menu:
+    %h2 <b>#{@bar.name}'s beer menu:</b>
     -@bar.sells.each do |beer|
       %h5{style: "color: black;"} #{beer.name} $#{"%6.2f" % [beer.price_at(@bar)]}
-
