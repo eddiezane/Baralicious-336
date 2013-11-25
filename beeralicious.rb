@@ -10,14 +10,14 @@ require './models/frequent.rb'
 require './models/transaction.rb'
 
 $client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
-$client.select_db "beer"
+$client.select_db "beer2"
 
 def link_to object
   case
     when object.is_a?(Beer)
       return "<a class=\"black\" href=/beers/#{object.name}>object.name</a>"
     when object.is_a?(Drinker)
-      return "<a class=\"black\" href=/drinkers/#{object.name}>#{object.name}</a>"
+      return "<a class=\"black\" href=/drinkers/#{object.name.gsub(" ","%20")}>#{object.name}</a>"
     when object.is_a?(Bar)
       return "<a class=\"black\" href=/bars/#{object.name.gsub(" ","%20")}>#{object.name}</a>"
   end

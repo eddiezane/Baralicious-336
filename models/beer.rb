@@ -36,17 +36,17 @@ class Beer
 
     nums = []
     count = 0
-    100.times do
+    150.times do
       nums << rand(4759)
     end
 
-    CSV.foreach('./seed_data/beer_data/openbeerdb_csv/breweries.csv') do |row|
+    CSV.foreach('../seed_data/beer_data/openbeerdb_csv/breweries.csv') do |row|
       if row[1] and row[1].ascii_only?
         manfs << {id: row[0], name: row[1]}
       end
     end
 
-    CSV.foreach('./seed_data/beer_data/openbeerdb_csv/beers.csv') do |row|
+    CSV.foreach('../seed_data/beer_data/openbeerdb_csv/beers.csv') do |row|
       count += 1
       if row[2] and row[2].ascii_only?
         manfs.each do |manf|

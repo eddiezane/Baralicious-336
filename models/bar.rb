@@ -3,7 +3,7 @@ class Bar
 
   def initialize name, city, license, phone, address
     @name = name
-    @city = city || random_city.capitalize
+    @city = city
     @license = license
     @phone = phone
     @address = address
@@ -20,25 +20,30 @@ class Bar
     return Bar.new(bar['name'], bar['city'], bar['license'], bar['phone'], bar['addr']) if not bar.nil?
     nil
   end
-
+  
   def self.add_ze_bars
-    names = File.open('./seed_data/babynames.txt').to_a.map{|w| w.strip.capitalize}
-    prefixes = File.open('./seed_data/bar_names/bar_prefixes.txt').to_a.map{|w| w.strip.capitalize}
+    names = File.open('../seed_data/babynames.txt').to_a.map{|w| w.strip.capitalize}
+    prefixes = File.open('../seed_data/bar_names/bar_prefixes.txt').to_a.map{|w| w.strip.capitalize}
     types = ['Bar', 'Tavern', 'Pub', 'Inn', 'Establishment', 'Beer Garden', 'Club', 'Beer Hall']
 
     bars = []
 
     # Number of bars
-    rand(25..50).times do
+    rand(40..75).times do
       pref = prefixes.sample
       name = names.sample
       type = types.sample
       bar = {a: pref, b: name, c: type}
+      city = Bar.random_city 
       if not bars.include? bar
         bars << bar
-        Bar.new("#{pref} #{name}''s #{type}").add_to_db
+        Bar.new("#{pref} #{name}''s #{type}", city, Bar.generate_license(city), Bar.generate_phone(city), Bar.generate_address(city)).add_to_db
       end
     end
+  end
+
+  def self.random_city
+    return ['New York', 'New Brunswick', 'Trenton', 'Philadelphia'].sample
   end
 
   def sells
@@ -76,11 +81,7 @@ class Bar
     #              " '#{@city}', '#{@phone}', '#{@address}')"
   end
 
-  def random_city
-    return ['New York', 'New Brunswick', 'Trenton', 'Philadelphia'].sample
-  end
-
-  def generate_license city
+  def self.generate_license city
     case city.downcase
       when 'new york'
         license = 'NY'
@@ -96,7 +97,7 @@ class Bar
     license
   end
 
-  def generate_phone city = 'new york'
+  def self.generate_phone city = 'new york'
     case city.downcase
       when 'new york'
         num = '212'
@@ -114,16 +115,16 @@ class Bar
     return num
   end
 
-  def generate_address city = 'new york'
+  def self.generate_address city = 'new york'
     case city.downcase
       when 'new york'
-        name_file = File.open('./seed_data/street_names/ny.txt', 'r')
+        name_file = File.open('../seed_data/street_names/ny.txt', 'r')
       when 'new brunswick'
-        name_file = File.open('./seed_data/street_names/nb.txt', 'r')
+        name_file = File.open('../seed_data/street_names/nb.txt', 'r')
       when 'trenton'
-        name_file = File.open('./seed_data/street_names/trenton.txt', 'r')
+        name_file = File.open('../seed_data/street_names/trenton.txt', 'r')
       when 'philadelphia'
-        name_file = File.open('./seed_data/street_names/pa.txt', 'r')
+        name_file = File.open('../seed_data/street_names/pa.txt', 'r')
     end
 
     street_names = []

@@ -22,8 +22,8 @@
     %h1 #{@drinker.name} is friends with:
     -@drinker.friends.each do |friend|
       %a
-        %h4{data: {:reveal_id => friend.name}}= friend.name
-      .reveal-modal{id: friend.name, data: {'reveal' => 'nil'}}
+        %h4{data: {:reveal_id => friend.name.gsub(" ","")}}= friend.name
+      .reveal-modal{id: friend.name.gsub(" ",""), data: {'reveal' => 'nil'}}
         %h3 #{@drinker.name} and #{friend.name} both go to these bars:
         %ul
           - @drinker.frequents_with(Drinker.get_drinker_by_name(friend.name)).each do |bar|

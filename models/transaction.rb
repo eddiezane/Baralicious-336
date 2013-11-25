@@ -66,7 +66,7 @@ class Transaction
     drinkers.each do |drinker|
       likes = drinker.likes
       friends = drinker.friends
-      rand(150..1000).times do
+      rand(200..1000).times do
         time = random_time
         score = time[:weight] * rand
         bar = bars.sample

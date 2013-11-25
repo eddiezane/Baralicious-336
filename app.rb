@@ -9,11 +9,15 @@ require 'haml'
 # configure
 set :public_folder, File.dirname(__FILE__) + '/assets'
 set :port, 4567
+set :bind, '0.0.0.0'
 
 get '/' do
   haml :index, :layout => :splash
 end
 
+error 404 do
+  "<h1>Not Found :(</h1>"
+end
 
 # API
 get '/bars.json' do
@@ -22,7 +26,7 @@ get '/bars.json' do
 end
 
 get '/drinkers.json' do
-  @drinkers ||= Drinker.all_drinkers.map {|drinker| drinker.name}
+  @drinkers ||= Drinker.all_drinkers.map {|drinker| drinker.name.split.map(&:capitalize).join(' ')}
   json @drinkers
 end
 
@@ -49,7 +53,7 @@ end
 # beers
 post '/beers' do
   @beer = Beer.get_beer_by_name params[:beer]
-#  error 404 if @bar.nil?
+  error 404 if @beer.nil?
   haml :beer
 end
 
@@ -65,8 +69,4 @@ post '/bars' do
   @bar = Bar.get_bar_by_name params[:bar]
   error 404 if @bar.nil?
   haml :bar
-end
-
-error 404 do
-  "<h1>This is not the page you were looking for</h1>"
 end

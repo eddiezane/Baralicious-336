@@ -14,7 +14,7 @@ class Friendship
   def self.add_ze_franz
     errbody = Drinker.all_drinkers
     errbody.each do |drinker1|
-      rand(15..30).times do
+      rand(20..50).times do
         drinker2 = errbody.sample
         next if drinker1.name >= drinker2.name
         score = 0.2

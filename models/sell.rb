@@ -17,7 +17,7 @@ class Sell
 
     bars.each do |bar|
       gbeers = []
-      rand(1..100).times do
+      rand(5..50).times do
         beer = beers.sample['name']
         if not gbeers.include? beer
           gbeers << beer

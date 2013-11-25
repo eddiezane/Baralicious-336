@@ -2,7 +2,7 @@ class Drinker
   attr_reader :name, :city, :phone, :address
 
   def self.add_ze_drinkers
-    names_file = File.open('./seed_data/babynames.txt', 'r')
+    names_file = File.open('../seed_data/nameslist.txt', 'r')
 
     names_file.each_line do |name|
       drinker = Drinker.new name.strip
@@ -18,13 +18,13 @@ class Drinker
 
   def self.all_drinkers
     $all_drinkers ||= $client.query("SELECT * FROM `drinkers`").map do |drinker|
-      Drinker.new(drinker['name'], drinker['city'], drinker['phone'], drinker['addr'])
+      Drinker.new(drinker['name'].split.map(&:capitalize).join(' '), drinker['city'], drinker['phone'], drinker['addr'])
     end
     return $all_drinkers
   end
 
   def initialize name, city = nil, phone = nil, address = nil
-    @name = name
+    @name = name.split.map(&:capitalize).join(' ')
     @city = city || random_city.capitalize
     @phone = phone || generate_phone(@city)
     @address = address || generate_address(@city)
@@ -35,8 +35,11 @@ class Drinker
   end
 
   def add_to_db
-    $client.query("INSERT INTO `drinkers` VALUES('#{@name.capitalize}'," +
-                  " '#{@city.capitalize}', '#{@phone}', '#{@address.capitalize}')")
+    begin
+      $client.query("INSERT INTO `drinkers` VALUES('#{@name.capitalize}'," +
+                    " '#{@city.capitalize}', '#{@phone}', '#{@address.capitalize}')")
+    rescue Mysql2::Error
+    end
   end
 
   def transactions
@@ -116,13 +119,13 @@ class Drinker
   def generate_address city = 'new york'
     case city.downcase
     when 'new york'
-      name_file = File.open('./seed_data/street_names/ny.txt', 'r')
+      name_file = File.open('../seed_data/street_names/ny.txt', 'r')
     when 'new brunswick'
-      name_file = File.open('./seed_data/street_names/nb.txt', 'r')
+      name_file = File.open('../seed_data/street_names/nb.txt', 'r')
     when 'trenton'
-      name_file = File.open('./seed_data/street_names/trenton.txt', 'r')
+      name_file = File.open('../seed_data/street_names/trenton.txt', 'r')
     when 'philadelphia'
-      name_file = File.open('./seed_data/street_names/pa.txt', 'r')
+      name_file = File.open('../seed_data/street_names/pa.txt', 'r')
     end
 
   street_names = []

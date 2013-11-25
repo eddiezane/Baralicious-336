@@ -20,7 +20,7 @@ class Frequent
     Drinker.all_drinkers.each do |drinker|
       frequents = []
       # range of number of frequents
-      rand(1..5).times do
+      rand(1..10).times do
         bar = bars.sample
         frequent = {drinker.name => bar.name}
         if not frequents.include? frequent 
