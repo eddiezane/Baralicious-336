@@ -25,9 +25,9 @@ class Drinker
 
   def initialize name, city = nil, phone = nil, address = nil
     @name = name.split.map(&:capitalize).join(' ')
-    @city = city || random_city.capitalize
+    @city = city.split.map(&:capitalize).join(' ') || random_city.capitalize
     @phone = phone || generate_phone(@city)
-    @address = address || generate_address(@city)
+    @address = address.split.map(&:capitalize).join(' ')
   end
 
   def == another_drinker

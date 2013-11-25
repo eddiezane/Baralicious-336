@@ -9,8 +9,8 @@
     %h1 #{@drinker.name} likes:
     -@drinker.likes.each do |like|
       %a
-        %h4{data: {:reveal_id => like.name.gsub(" ","").gsub(":","").gsub("-","")}}= like.name
-      .reveal-modal{id: like.name.gsub(" ","").gsub(":","").gsub("-",""), data: {'reveal' => 'nil'}}
+        %h4{data: {:reveal_id => like.name.gsub(" ","").gsub(":","").gsub("-","").gsub("&","").gsub(".","")}}= like.name
+      .reveal-modal{id: like.name.gsub(" ","").gsub(":","").gsub("-","").gsub("&","").gsub(".",""), data: {'reveal' => 'nil'}}
         %h3 #{@drinker.name}'s purchases of #{like.name} look like:
         %ul
           - @drinker.bought(Beer.get_beer_by_name(like.name)).each do |tranny|
