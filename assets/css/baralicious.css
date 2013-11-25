@@ -7,3 +7,7 @@ a.black {
   color: black;
   text-decoration:underline;
 }
+
+span.twitter-typeahead {
+  display: block !important;
+}

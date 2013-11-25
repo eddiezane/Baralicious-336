@@ -9,8 +9,6 @@ require 'haml'
 # configure
 set :public_folder, File.dirname(__FILE__) + '/assets'
 set :port, 4567
-set :bind, '0.0.0.0'
-
 
 get '/' do
   haml :index, :layout => :splash

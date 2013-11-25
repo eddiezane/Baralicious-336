@@ -18,56 +18,44 @@
       .row.extramargin
         .large-12.columns
           %input#in1{type: "text", placeholder: "Beer Name?", name: "beer"}
+          %button{type: "submit", class: "small"} Submit
     %form#bars.hide{action: "/bars", method: "POST"}
       .row.extramargin
         .large-12.columns
           %input#in2{type: "text", placeholder: "Bar Name?", name: "bar"}
+          %button{type: "submit", class: "small"} Submit
     %form#friends.hide{action: "/drinkers", method: "POST"}
       .row.extramargin
         .large-12.columns
           %input#in3{type: "text", placeholder: "Your Name?", name: "drinker"}
+          %button{type: "submit", class: "small"} Submit
 :javascript
   $(document).ready(function() {
     $('#beer').click(function() {
       $('#beers').show();
       $('#bars').hide();
       $('#friends').hide();
-      $('#in1').keypress(function(e) {
-        if (e.charCode == 13) {
-        $('#beers').submit();
-        }
-      });
     });
     $('#bar').click(function() {
       $('#bars').show();
       $('#beers').hide();
       $('#friends').hide();
-      $('#in2').keypress(function(e) {
-        if (e.charCode == 13) {
-        $('#bars').submit();
-        }
-      });
     });
     $('#friend').click(function() {
       $('#friends').show();
       $('#bars').hide();
       $('#beers').hide();
-      $('#in3').keypress(function(e) {
-        if (e.charCode == 13) {
-        $('#friends').submit();
-        }
-      });
     });
     $('input#in1').typeahead({
       name: 'beer',
       prefetch: '/beers.json'
-      });
+    });
     $('input#in2').typeahead({
       name: 'bar',
       prefetch: '/bars.json'
-      });
+    });
     $('input#in3').typeahead({
       name: 'drinker',
       prefetch: '/drinkers.json'
-      });
     });
+  });
