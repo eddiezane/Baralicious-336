@@ -9,7 +9,7 @@ require './models/like.rb'
 require './models/frequent.rb'
 require './models/transaction.rb'
 
-$client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs")
+$client = Mysql2::Client.new(host: "localhost", username: "csuser", password: "c0rnd0gs", reconnect: true)
 $client.select_db "beer2"
 
 def link_to object
