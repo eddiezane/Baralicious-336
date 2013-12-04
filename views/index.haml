@@ -17,17 +17,17 @@
     %form#beers.hide{action: "/beers", method: "POST"}
       .row.extramargin
         .large-12.columns
-          %input#in1{type: "text", placeholder: "Beer Name?", name: "beer"}
+          %input#in1{type: "text", placeholder: "Beer Name?", name: "beer", autocomplete: "off"}
           %button{type: "submit", class: "small"} Submit
     %form#bars.hide{action: "/bars", method: "POST"}
       .row.extramargin
         .large-12.columns
-          %input#in2{type: "text", placeholder: "Bar Name?", name: "bar"}
+          %input#in2{type: "text", placeholder: "Bar Name?", name: "bar", autocomplete: "off"}
           %button{type: "submit", class: "small"} Submit
     %form#friends.hide{action: "/drinkers", method: "POST"}
       .row.extramargin
         .large-12.columns
-          %input#in3{type: "text", placeholder: "Your Name?", name: "drinker"}
+          %input#in3{type: "text", placeholder: "Your Name?", name: "drinker", autocomplete: "off"}
           %button{type: "submit", class: "small"} Submit
 :javascript
   $(document).ready(function() {
