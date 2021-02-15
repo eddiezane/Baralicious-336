@@ -5,7 +5,7 @@ GEM
       tilt
     kgio (2.8.1)
     mysql2 (0.3.14)
-    rack (1.5.2)
+    rack (1.6.13)
     rack-protection (1.5.1)
       rack
     raindrops (0.12.0)
